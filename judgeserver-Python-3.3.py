@@ -39,6 +39,7 @@ s = socket.socket()         # Create a socket object
 serverconfig = readServerConfigFromFile()
 host = serverconfig[0]      # Get local machine name
 port = serverconfig[1]      # Reserve a port for your service.
+problemdict = serverconfig[3]
 s.bind((host, port))        # Bind to the port
 
 s.listen(5)                 # Now wait for client connection.
@@ -64,7 +65,7 @@ while True:
                 loginid = p
 
     if (loginid != -1): # if the id and password were correct
-        print (participants[loginid][1] + " is trying to answer " + problemName)
+        print (participants[loginid][1] + ' is trying to answer the problem "' + problemName + '"')
         
         codebeginning = problemnamesize+studentIDsize+2+passwordsize
         recievedcode = str(result[codebeginning+1:],"ascii") # The code itself begins right after the password
@@ -78,10 +79,13 @@ while True:
         command = Command([serverconfig[2], tempfilename], 1) # It sends the batch command
 
         # load the config
-        config = readProblemConfigFromFile(problemName)
+        try:
+            config = readProblemConfigFromFile(problemdict[problemName])
+        except:
+            config = False
         if (config): # if there was a problem with that name
             # run the judge
-            a = command.run(timeout = config[1] ,problem = problemName)
+            a = command.run(timeout = config[1] ,problem = problemdict[problemName])
             
             # Translate the results:
             if (a[0] == 1): # The code ran perfectly and got accepted
@@ -92,7 +96,7 @@ while True:
                 rtsr = "Wrong answer or Presentaion error!"
                 print(rtsr)
             elif (a[0] == 3): # The code didn't run well. Return the error description itself
-                rtsr = a[1] # a[0] = "return code", a[1] = "error desc"
+                rtsr = "Error! : " + a[1] # a[0] = "return code", a[1] = "error desc"
                 print(rtsr)
             elif (a[0] == 4): # The code took too long and so we terminated it
                 rtsr = "Time out!"

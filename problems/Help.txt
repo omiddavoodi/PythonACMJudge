@@ -1,0 +1,3 @@
+The first problem is an A+B problem. (jam.py)
+The second one is a reverse the string problem (reverse.py)
+The third one is an n! problem (factorial.py)
