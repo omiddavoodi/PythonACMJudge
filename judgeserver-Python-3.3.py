@@ -32,6 +32,7 @@ from command import Command ## lets just organize stuff a bit and put command cl
 from problemConfigReader import  readProblemConfigFromFile
 from serverConfigReader import readServerConfigFromFile
 from participantsReader import readParticipants
+from pythonSecurity import security_controller
 
 participants = readParticipants()
 
@@ -75,37 +76,41 @@ while True:
         tempf.write(recievedcode)
         tempf.close()
 
-        # OK. We now have the code in a file. Now we should make the Command class to do the judging
-        command = Command([serverconfig[2], tempfilename], 1) # It sends the batch command
+        if (not security_controller(tempfilename)):            
+            # OK. We now have the code in a file. Now we should make the Command class to do the judging
+            command = Command([serverconfig[2], tempfilename], 1) # It sends the batch command
 
-        # load the config
-        try:
-            config = readProblemConfigFromFile(problemdict[problemName])
-        except:
-            config = False
-        if (config): # if there was a problem with that name
-            # run the judge
-            a = command.run(timeout = config[1] ,problem = problemdict[problemName])
-            
-            # Translate the results:
-            if (a[0] == 1): # The code ran perfectly and got accepted
-                rtsr = "Accepted!" # rtsr: 'result to send "??????"' (forgot the last part)
-                print(rtsr)
-            elif (a[0] == 2): # The code ran perfectly but the output was not equal to the .out file
-                              # [TODO]: A way to distinguish between presentation error and wrong answer
-                rtsr = "Wrong answer or Presentaion error!"
-                print(rtsr)
-            elif (a[0] == 3): # The code didn't run well. Return the error description itself
-                rtsr = "Error! : " + a[1] # a[0] = "return code", a[1] = "error desc"
-                print(rtsr)
-            elif (a[0] == 4): # The code took too long and so we terminated it
-                rtsr = "Time out!"
-                print(rtsr)
+            # load the config
+            try:
+                config = readProblemConfigFromFile(problemdict[problemName])
+            except:
+                config = False
+            if (config): # if there was a problem with that name
+                # run the judge
+                a = command.run(timeout = config[1] ,problem = problemdict[problemName])
+                
+                # Translate the results:
+                if (a[0] == 1): # The code ran perfectly and got accepted
+                    rtsr = "Accepted!" # rtsr: 'result to send "??????"' (forgot the last part)
+                    print(rtsr)
+                elif (a[0] == 2): # The code ran perfectly but the output was not equal to the .out file
+                                  # [TODO]: A way to distinguish between presentation error and wrong answer
+                    rtsr = "Wrong answer or Presentaion error!"
+                    print(rtsr)
+                elif (a[0] == 3): # The code didn't run well. Return the error description itself
+                    rtsr = "Error! : " + a[1] # a[0] = "return code", a[1] = "error desc"
+                    print(rtsr)
+                elif (a[0] == 4): # The code took too long and so we terminated it
+                    rtsr = "Time out!"
+                    print(rtsr)
+                else:
+                    rtsr = "Unknown error!" # It could be a memory limit error or something else 
+                    print(rtsr)
             else:
-                rtsr = "Unknown error!" # It could be a memory limit error or something else 
+                rtsr = "Problem not found!"
                 print(rtsr)
         else:
-            rtsr = "Problem not found!"
+            rtsr = "Illegal code pieces!"
             print(rtsr)
         os.remove(tempfilename) # OK, remove that temporary file we created
     else:
