@@ -30,27 +30,39 @@ def security_controller(address_file):
         a = split(a.strip(), "#*.:;() =,+-/!><")
         if "from" in a:
             security = False
+            break
 
         if "import" in a and a[1] != "math":
             security = False
+            break
 
+        if "__" in a:
+            security = False
+            break
+            
         if "eval" in a:
             security = False
+            break
 
         if "exec" in a:
             security = False
+            break
 
         if "execfile" in a:
             security = False
+            break
 
         if "open" in a:
             security = False
+            break
 
         if "compile" in a:
             security = False
+            break
 
         if "file" in a:
             security = False
+            break
 
         a = file.readline()
 
