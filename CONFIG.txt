@@ -13,7 +13,7 @@ HOST=127.0.0.1
 
 #Port number
 
-PORT=11081
+PORT=1212
 
 #Student number
 

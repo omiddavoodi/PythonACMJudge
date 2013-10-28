@@ -8,9 +8,9 @@ def readParticipants():
     parts = []
     for line in file:
         temp = list()
-        temp.append(line[:line.find(':')])
-        temp.append(line[line.find(':')+1:line.rfind(':')])
-        temp.append(line[line.rfind(':')+1:])
+        temp.append(line[:line.find(':')].strip())
+        temp.append(line[line.find(':')+1:line.rfind(':')].strip())
+        temp.append(line[line.rfind(':')+1:].strip())
         parts.append(copy.deepcopy(temp))
     return(parts)
 
