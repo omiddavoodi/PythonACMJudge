@@ -1,5 +1,5 @@
 import subprocess, threading
-import signal, os
+import os
 #import socket
 
 class Command(object): #this class organizes the "judging" action and returns the result

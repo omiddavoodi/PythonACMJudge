@@ -38,10 +38,11 @@ participants = readParticipants()
 
 s = socket.socket()         # Create a socket object
 serverconfig = readServerConfigFromFile()
-host = serverconfig[0]      # Get local machine name
-port = serverconfig[1]      # Reserve a port for your service.
-problemdict = serverconfig[3]
-s.bind((host, port))        # Bind to the port
+host = serverconfig[0]          # Get local machine name
+port = serverconfig[1]          # Reserve a port for your service.
+problemdict = serverconfig[3]   # The problem name dictionary
+contestname = serverconfig[4]   # The name of the contest
+s.bind((host, port))            # Bind to the port
 
 s.listen(5)                 # Now wait for client connection.
 while True:
@@ -76,7 +77,10 @@ while True:
         tempf.write(recievedcode)
         tempf.close()
 
-        if (not security_controller(tempfilename)):            
+        contestlog = open (contestname + "-Log.txt", mode='a')
+
+        # check for secure codes. we don't want them to destroy the server
+        if (security_controller(tempfilename)):           
             # OK. We now have the code in a file. Now we should make the Command class to do the judging
             command = Command([serverconfig[2], tempfilename], 1) # It sends the batch command
 
@@ -93,26 +97,33 @@ while True:
                 if (a[0] == 1): # The code ran perfectly and got accepted
                     rtsr = "Accepted!" # rtsr: 'result to send "??????"' (forgot the last part)
                     print(rtsr)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-a\n")
                 elif (a[0] == 2): # The code ran perfectly but the output was not equal to the .out file
                                   # [TODO]: A way to distinguish between presentation error and wrong answer
                     rtsr = "Wrong answer or Presentaion error!"
                     print(rtsr)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
                 elif (a[0] == 3): # The code didn't run well. Return the error description itself
                     rtsr = "Error! : " + a[1] # a[0] = "return code", a[1] = "error desc"
                     print(rtsr)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
                 elif (a[0] == 4): # The code took too long and so we terminated it
                     rtsr = "Time out!"
                     print(rtsr)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
                 else:
                     rtsr = "Unknown error!" # It could be a memory limit error or something else 
                     print(rtsr)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
             else:
                 rtsr = "Problem not found!"
                 print(rtsr)
         else:
             rtsr = "Illegal code pieces!"
             print(rtsr)
+            contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
         os.remove(tempfilename) # OK, remove that temporary file we created
+        contestlog.close()
     else:
         rtsr = "Username or Password is incorrect!"
         print(str(addr) + " was trying to connect with a wrong Logon")
