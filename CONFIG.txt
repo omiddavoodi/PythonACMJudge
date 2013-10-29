@@ -2,10 +2,6 @@
 ## config file by AL7 :)##
 ##########################
 
-
-# this is a comment for testing :) HOST = 222222
-# PORT = 111111
-
 #Host adress
 
 HOST=127.0.0.1
