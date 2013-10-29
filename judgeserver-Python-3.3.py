@@ -62,78 +62,92 @@ while True:
     password = str(result[problemnamesize+studentIDsize+3:problemnamesize+studentIDsize+3+passwordsize],"ascii") # also get the password
 
     loginid = -1
-    for p in range(len(participants)): # check if such id and password pair exists
-        if (participants[p][0] == studentID):
-            if (participants[p][2] == password):
-                loginid = p
 
-    if (loginid != -1): # if the id and password were correct
-        print (participants[loginid][1] + ' is trying to answer the problem "' + problemName + '"')
-        
-        codebeginning = problemnamesize+studentIDsize+2+passwordsize
-        recievedcode = str(result[codebeginning+1:],"ascii") # The code itself begins right after the password
-
-        tempfilename = addr[0] + "." + str(random.randint(0,999)) + ".py" # We want to create a temporary file and write the code in it
-        tempf = open (tempfilename, mode='w') 
-        tempf.write(recievedcode)
-        tempf.close()
-
-        contestlog = open (contestname + "-Log.txt", mode='a')
-
-        # check for secure codes. we don't want them to destroy the server
-        if (security_controller(tempfilename)):           
-            # OK. We now have the code in a file. Now we should make the Command class to do the judging
-            command = Command([serverconfig[2], tempfilename], 1) # It sends the batch command
-
-            # load the config
-            try:
-                config = readProblemConfigFromFile(problemdict[problemName])
-            except:
-                config = False
-            if (config): # if there was a problem with that name
-                # run the judge
-                a = command.run(timeout = config[1] ,problem = problemdict[problemName])
-                
-                # Translate the results:
-                if (a[0] == 1): # The code ran perfectly and got accepted
-                    rtsr = "Accepted!" # rtsr: 'result to send "??????"' (forgot the last part)
-                    print(rtsr)
-                    deltatime = int(time.time() - conteststart)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-a:" + str(deltatime) + "\n")
-                elif (a[0] == 2): # The code ran perfectly but the output was not equal to the .out file
-                                  # [TODO]: A way to distinguish between presentation error and wrong answer
-                    rtsr = "Wrong answer or Presentaion error!"
-                    print(rtsr)
-                    deltatime = int(time.time() - conteststart)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
-                elif (a[0] == 3): # The code didn't run well. Return the error description itself
-                    rtsr = "Error! : " + a[1] # a[0] = "return code", a[1] = "error desc"
-                    print(rtsr)
-                    deltatime = int(time.time() - conteststart)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
-                elif (a[0] == 4): # The code took too long and so we terminated it
-                    rtsr = "Time out!"
-                    print(rtsr)
-                    deltatime = int(time.time() - conteststart)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
-                else:
-                    rtsr = "Unknown error!" # It could be a memory limit error or something else 
-                    print(rtsr)
-                    deltatime = int(time.time() - conteststart)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
-            else:
-                rtsr = "Problem not found!"
-                print(rtsr)
-        else:
-            rtsr = "Illegal code pieces!"
-            print(rtsr)
-            deltatime = int(time.time() - conteststart)
-            contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
-        os.remove(tempfilename) # OK, remove that temporary file we created
-        contestlog.close()
+    if (studentID == 'admin' and password == 'tolombe'):
+        # Reload the config of the system
+        participants = readParticipants()
+        serverconfig = readServerConfigFromFile()
+        problemdict = serverconfig[3]   # The problem name dictionary
+        contestname = serverconfig[4]   # The name of the contest
+        conteststart = serverconfig[5]  # The start time of the contest
     else:
-        rtsr = "Username or Password is incorrect!"
-        print(str(addr) + " was trying to connect with a wrong Logon")
+        loginid = -1
+        for p in range(len(participants)): # check if such id and password pair exists
+            if (participants[p][0] == studentID):
+                if (participants[p][2] == password):
+                    loginid = p
+
+        if (loginid != -1): # if the id and password were correct
+            if (conteststart <= int(time.time())):
+                print (participants[loginid][1] + ' is trying to answer the problem "' + problemName + '"')
+                
+                codebeginning = problemnamesize+studentIDsize+2+passwordsize
+                recievedcode = str(result[codebeginning+1:],"ascii") # The code itself begins right after the password
+
+                tempfilename = addr[0] + "." + str(random.randint(0,999)) + ".py" # We want to create a temporary file and write the code in it
+                tempf = open (tempfilename, mode='w') 
+                tempf.write(recievedcode)
+                tempf.close()
+
+                contestlog = open (contestname + "-Log.txt", mode='a')
+
+                # check for secure codes. we don't want them to destroy the server
+                if (security_controller(tempfilename)):           
+                    # OK. We now have the code in a file. Now we should make the Command class to do the judging
+                    command = Command([serverconfig[2], tempfilename], 1) # It sends the batch command
+
+                    # load the config
+                    try:
+                        config = readProblemConfigFromFile(problemdict[problemName])
+                    except:
+                        config = False
+                    if (config): # if there was a problem with that name
+                        # run the judge
+                        a = command.run(timeout = config[1] ,problem = problemdict[problemName])
+                        
+                        # Translate the results:
+                        if (a[0] == 1): # The code ran perfectly and got accepted
+                            rtsr = "Accepted!" # rtsr: 'result to send "??????"' (forgot the last part)
+                            print(rtsr)
+                            deltatime = int(time.time() - conteststart)
+                            contestlog.write(participants[loginid][0] + "-" + problemName + "-a:" + str(deltatime) + "\n")
+                        elif (a[0] == 2): # The code ran perfectly but the output was not equal to the .out file
+                                          # [TODO]: A way to distinguish between presentation error and wrong answer
+                            rtsr = "Wrong answer or Presentaion error!"
+                            print(rtsr)
+                            deltatime = int(time.time() - conteststart)
+                            contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
+                        elif (a[0] == 3): # The code didn't run well. Return the error description itself
+                            rtsr = "Error! : " + a[1] # a[0] = "return code", a[1] = "error desc"
+                            print(rtsr)
+                            deltatime = int(time.time() - conteststart)
+                            contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
+                        elif (a[0] == 4): # The code took too long and so we terminated it
+                            rtsr = "Time out!"
+                            print(rtsr)
+                            deltatime = int(time.time() - conteststart)
+                            contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
+                        else:
+                            rtsr = "Unknown error!" # It could be a memory limit error or something else 
+                            print(rtsr)
+                            deltatime = int(time.time() - conteststart)
+                            contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
+                    else:
+                        rtsr = "Problem not found!"
+                        print(rtsr)
+                else:
+                    rtsr = "Illegal code pieces!"
+                    print(rtsr)
+                    deltatime = int(time.time() - conteststart)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
+                os.remove(tempfilename) # OK, remove that temporary file we created
+                contestlog.close()
+            else:
+                rtsr = "Contest has not yet started!"
+                print(str(addr) + " was trying to answer before the start")
+        else:
+            rtsr = "Username or Password is incorrect!"
+            print(str(addr) + " was trying to connect with a wrong Logon")
     c.send(bytearray(rtsr,"ascii"))
     c.close()                # Close the connection
     
