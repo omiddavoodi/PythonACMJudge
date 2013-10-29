@@ -1,7 +1,7 @@
 ####################################################################
 #                                                                  #
-#   Socket based python judge.    ----The Client----               #
-#      Developed by Omid Davoodi and Mohammad Reza Barazesh of     #
+#   Socket based python judge.    ----The Result Client----        #
+#                   Developed by Omid Davoodi                      #
 #        Iran University of Science and Technology                 #
 #                                                                  #
 ####################################################################
@@ -28,7 +28,7 @@ try:
     print("Reading the config.txt file...",end="") 
     config = readConfigFromFile()
     host = config [0]
-    port = config [1]
+    port = config [1] + 1
     print("OK!")
 except:
     print("Error reading the config.txt file !")

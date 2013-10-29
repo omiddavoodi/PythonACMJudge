@@ -24,15 +24,15 @@ def split(string, model):
 
 def security_controller(address_file):
     file = open(address_file, "r")
-    a = file.readline()
+    b = file.readline()
     security = True
-    while a:
-        a = split(a.strip(), "#*.:;() =,+-/!><")
+    while b:
+        a = split(b.strip(), "#*.:;() =,+-/!><")
         if "from" in a:
             security = False
             break
 
-        if "import" in a and a[1] != "math":
+        if "import" in a and b.strip() != "import math":
             security = False
             break
 
@@ -64,7 +64,7 @@ def security_controller(address_file):
             security = False
             break
 
-        a = file.readline()
+        b = file.readline()
 
     del a
     file.close()
