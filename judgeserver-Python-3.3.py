@@ -25,7 +25,7 @@
 
 # Importing several libraries
 
-import signal, os
+import os, time
 import socket
 import random
 from command import Command ## lets just organize stuff a bit and put command class in a seperated py file 
@@ -42,6 +42,7 @@ host = serverconfig[0]          # Get local machine name
 port = serverconfig[1]          # Reserve a port for your service.
 problemdict = serverconfig[3]   # The problem name dictionary
 contestname = serverconfig[4]   # The name of the contest
+conteststart = serverconfig[5]  # The start time of the contest
 s.bind((host, port))            # Bind to the port
 
 s.listen(5)                 # Now wait for client connection.
@@ -97,31 +98,37 @@ while True:
                 if (a[0] == 1): # The code ran perfectly and got accepted
                     rtsr = "Accepted!" # rtsr: 'result to send "??????"' (forgot the last part)
                     print(rtsr)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-a\n")
+                    deltatime = int(time.time() - conteststart)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-a:" + str(deltatime) + "\n")
                 elif (a[0] == 2): # The code ran perfectly but the output was not equal to the .out file
                                   # [TODO]: A way to distinguish between presentation error and wrong answer
                     rtsr = "Wrong answer or Presentaion error!"
                     print(rtsr)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
+                    deltatime = int(time.time() - conteststart)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
                 elif (a[0] == 3): # The code didn't run well. Return the error description itself
                     rtsr = "Error! : " + a[1] # a[0] = "return code", a[1] = "error desc"
                     print(rtsr)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
+                    deltatime = int(time.time() - conteststart)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
                 elif (a[0] == 4): # The code took too long and so we terminated it
                     rtsr = "Time out!"
                     print(rtsr)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
+                    deltatime = int(time.time() - conteststart)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
                 else:
                     rtsr = "Unknown error!" # It could be a memory limit error or something else 
                     print(rtsr)
-                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
+                    deltatime = int(time.time() - conteststart)
+                    contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
             else:
                 rtsr = "Problem not found!"
                 print(rtsr)
         else:
             rtsr = "Illegal code pieces!"
             print(rtsr)
-            contestlog.write(participants[loginid][0] + "-" + problemName + "-f\n")
+            deltatime = int(time.time() - conteststart)
+            contestlog.write(participants[loginid][0] + "-" + problemName + "-f:" + str(deltatime) + "\n")
         os.remove(tempfilename) # OK, remove that temporary file we created
         contestlog.close()
     else:

@@ -44,7 +44,7 @@ while(not os.path.isfile(file)):
 
 # [TODO]: Should change to A, B, C, D, etc. when we implement a real contest system
 
-problem = input("Please enter the name of the problem(eg. 00002):")
+problem = input("Please enter the name of the problem(eg. a):").lower() 
 
 # Open the code file and read its contents
 try :
