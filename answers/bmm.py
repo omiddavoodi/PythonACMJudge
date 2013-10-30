@@ -1,7 +1,9 @@
+#3.3
 def bmm(a, b):
-    if (b == 0):
-        return a
-    return bmm(b, a%b)
+    (c, d) = (a, b)
+    while d !=0:
+        (c, d) = (d, c%d)
+    return c
 
 a = []
 for i in range(5):

@@ -1,3 +1,4 @@
+#3.3
 a = input()
 i = 0
 flag = False

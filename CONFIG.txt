@@ -1,19 +1,4 @@
-##########################
-## config file by AL7 :)##
-##########################
-
-#Host adress
-
 HOST=127.0.0.1
-
-#Port number
-
 PORT=1212
-
-#Student number
-
 STUDENTNUMBER=91521077
-
-#Password
-
 PASSWORD=bozboz

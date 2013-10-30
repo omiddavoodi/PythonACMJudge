@@ -1,3 +1,4 @@
+#3.3
 def func(string):
     a = 0
     for i in range(len(string)):
