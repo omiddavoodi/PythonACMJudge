@@ -45,7 +45,7 @@ contestname = serverconfig[4]   # The name of the contest
 conteststart = serverconfig[5]  # The start time of the contest
 s.bind((host, port))            # Bind to the port
 
-s.listen(5)                 # Now wait for client connection.
+s.listen(1)                 # Now wait for client connection.
 while True:
     c, addr = s.accept()     # Establish connection with client.
     print ('Got connection from', addr)
@@ -94,7 +94,13 @@ while True:
                 # check for secure codes. we don't want them to destroy the server
                 if (security_controller(tempfilename)):           
                     # OK. We now have the code in a file. Now we should make the Command class to do the judging
-                    command = Command([serverconfig[2], tempfilename], 1) # It sends the batch command
+                    pypath = ''
+                    if (recievedcode[:4] == '#2.7'):
+                        pypath = serverconfig[7]
+                    else:
+                        pypath = serverconfig[2]
+
+                    command = Command([pypath, tempfilename], 1) # It sends the batch command
 
                     # load the config
                     try:

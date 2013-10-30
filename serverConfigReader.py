@@ -6,7 +6,7 @@ def readServerConfigFromFile():
 
     file = open("SERVERCONFIG.txt").readlines()
     host = "" ; port = ""; pythonp = ""; contestname = ""; prblemnames = {}
-    start = 0; penalty = 0
+    start = 0; penalty = 0; pythonp27 = ""
 
     for line in file:
         ## if a line starts with '#' its a comment
@@ -26,6 +26,8 @@ def readServerConfigFromFile():
             start = int(line[line.find('=')+1:].strip())
         elif("PENALTY" in line):
             penalty = int(line[line.find('=')+1:].strip())
+        elif("PYTHON27PATH" in line):
+            pythonp27 = line[line.find('=')+1:].strip()
             
-    return([host, int(port), pythonp, prblemnames, contestname, start, penalty])
+    return([host, int(port), pythonp, prblemnames, contestname, start, penalty, pythonp27])
 
