@@ -53,7 +53,7 @@ while True:
     c.send(bytearray('Connection Accepted',"ascii"))
     result = (c.recv(32768)) # Wait for the client to send the code
     problemnamesize = result[0] # The first byte of the sent data is the length of the name of the problem
-    problemName = str(result[1:problemnamesize+1],"ascii") # Get the problem name
+    problemName = str(result[1:problemnamesize+1],"ascii").lower() # Get the problem name
 
     studentIDsize = result[problemnamesize+1] # the next byte is the length of the student id
     studentID = str(result[problemnamesize+2:problemnamesize+studentIDsize+2],"ascii") # get it
