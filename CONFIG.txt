@@ -6,15 +6,14 @@
 
 HOST=127.0.0.1
 
-
 #Port number
 
 PORT=1212
 
 #Student number
 
-STUDENTNUMBER=91521131
+STUDENTNUMBER=91521077
 
 #Password
 
-PASSWORD=ghelgheli
+PASSWORD=bozboz
