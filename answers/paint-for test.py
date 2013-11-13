@@ -1,14 +1,14 @@
 #2.7
+text = open("input.txt", 'r').read()
+
 l = [[]]
-a = int(raw_input())
-for i in range(a):
-    temp = raw_input()
-    for j in temp:
-        l[-1].append(j)
-    if i != a-1:
+for i in text:
+    if i == "\n":
         l.append([])
+    else:
+        l[-1].append(i)
 
-
+        
 h = len(l)
 w = len(l[1])
 pos = (0,0)
@@ -39,12 +39,14 @@ def paint(l, pos):
 
 paint(l, pos)
 temp = ""
-for i in range(a):
-    for j in range(len(l[2])):
+for i in range(h):
+    for j in range(w):
         if j != len(l[2]) - 1:
             temp += l[i][j]
-        elif i != a - 1:
+        elif i != h - 1:
             temp += l[i][j] + "\n"
             
-temp += l[a - 1][len(l[1]) - 1]
-print temp
+temp += l[h - 1][len(l[1]) - 1]
+out = open('output.txt' ,'w')
+out.write(temp)
+out.close()
