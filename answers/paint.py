@@ -7,6 +7,7 @@ l = [['@','@','@','@','@','@','@'],
      ['@','C','#','#','#','#','@'],
      ['@','#','#','#','#','#','@'],
      ['@','@','@','@','@','@','@']]
+a = 7
 """
 l = [[]]
 a = int(raw_input())
@@ -14,8 +15,10 @@ for i in range(a):
     temp = raw_input()
     for j in temp:
         l[-1].append(j)
-    l.appen([])
-    
+    if i != a-1:
+        l.append([])
+
+
 h = len(l)
 w = len(l[1])
 pos = (0,0)
@@ -24,7 +27,7 @@ for i in range(h):
         if l[i][j] == 'C':
             pos = (i, j)
             break
-        
+
 def paint(l, pos):
     x = pos[0]
     Y = pos[1]
@@ -45,8 +48,13 @@ def paint(l, pos):
 
 
 paint(l, pos)
+temp = ""
 for i in range(a):
     for j in range(len(l[2])):
-        if j != len(len(l[2])):
-            print [i][j],
-        else print [i][j]
+        if j != len(l[2]) - 1:
+            temp += l[i][j]
+        elif i != 6:
+            temp += l[i][j] + "\n"
+            
+temp += l[a - 1][len(l[1]) - 1]
+print temp
