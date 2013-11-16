@@ -1,7 +1,12 @@
 #2.7
-n = 3#int(raw_input())
-a=[i for i in range(n*n)]
-b=[i for i in range(n*n)]
+n = int(raw_input())
+a = []
+b = []
+for i in range(n*n):
+    a.append(int(raw_input()))
+for i in range(n*n):
+    b.append(int(raw_input()))
+
 c = [0 for i in range(n*n)]
 
 indexa = 0
@@ -21,4 +26,4 @@ for i in range(n):
         temp += str(c[n*i + j])
     if i != n-1:
         temp += '\n'
-print( temp)
+print temp
