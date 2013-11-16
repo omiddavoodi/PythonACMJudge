@@ -1,4 +1,5 @@
 #2.7
+
 n = int(raw_input())
 a = []
 b = []
@@ -7,6 +8,11 @@ for i in range(n*n):
 for i in range(n*n):
     b.append(int(raw_input()))
 
+"""
+n = 5
+a = [i*i for i in range(n*n)]
+b = [i*i for i in range(n*n)]
+"""
 c = [0 for i in range(n*n)]
 
 indexa = 0
