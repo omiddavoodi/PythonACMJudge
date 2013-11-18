@@ -1,0 +1,10 @@
+Write a program that gets numbers until an inuput number is less than zero. Then it prints the square roots of the given numbers up to 4 digits.
+Example:
+Input:
+5
+17
+9
+Output:
+2.2360
+4.1231
+3.0

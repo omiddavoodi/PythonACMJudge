@@ -1,0 +1,11 @@
+Write a program that first gets "n". Then does this n times: Get a number and write n! (n!=n*(n-1)*(n-2)*...*2*1)
+Example:
+Input:
+3
+3
+6
+1
+Output:
+6
+720
+1

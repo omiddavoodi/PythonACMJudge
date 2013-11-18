@@ -1,0 +1,11 @@
+Write a program that first gets "n". Then does this n times: Get a string and write it in a reversed order:
+Example:
+Input:
+3
+golabi
+shalgham havij
+chi shode?
+Output:
+ibalog
+jivah mahglahs
+?edohs ihc
