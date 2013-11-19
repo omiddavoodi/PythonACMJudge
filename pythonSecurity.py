@@ -36,9 +36,9 @@ def security_controller(address_file):
             security = False
             break
 
-        if "__" in a:
-            security = False
-            break
+##        if "__" in a:
+##            security = False
+##            break
             
         if "eval" in a:
             security = False
