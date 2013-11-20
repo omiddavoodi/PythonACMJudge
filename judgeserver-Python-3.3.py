@@ -70,6 +70,7 @@ while True:
         problemdict = serverconfig[3]   # The problem name dictionary
         contestname = serverconfig[4]   # The name of the contest
         conteststart = serverconfig[5]  # The start time of the contest
+        print ("The configuration of the server is reset...")
     else:
         loginid = -1
         for p in range(len(participants)): # check if such id and password pair exists
