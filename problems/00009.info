@@ -1,0 +1,11 @@
+Write a program that gets a string. In that string, there are parts starting with "<" and ending with ">". Lets call these "tags". Also, there are tags the start with "</" called "endtags".
+Your program should remove all of the "tags" and "endtags". It should also remove every part of the string that is between a "tag" and an "endtag", if the "tag" is located before the "endtag" and there are no other
+"tags" or "endtags" in it. Then it should write the result.
+Example:
+Input:
+Salam<tag><heigf>omid</tag>pekf<qfef>khodhafez
+Output:
+Salamomidpekfkhodhafez
+
+
+Problem by Hooman Behnejad

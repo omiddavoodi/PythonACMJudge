@@ -1,0 +1,15 @@
+For a pair of numbers like a and b, GCD, or "Greatest Common Divisor", is the largest integer that both a and b can be divided to. For example, the gcd of 8 and 6 is 2. GCD can be defined for more than one number, such that the GCD of n numbers like k1, k2, k3, k4, ..., kn, is the greatest integer which all of km are dividable to.
+Now write a program that gets 5 numbers, and writes the gcd of those numbers in this format:
+Result is [gcd]
+Example:
+Input:
+4
+6
+12
+82
+16
+Output:
+Result is 2
+
+
+Problem by Hooman Behnejad

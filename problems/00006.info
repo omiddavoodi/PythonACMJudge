@@ -1,0 +1,14 @@
+Now you should write a program that gets number n, and then inputs n strings. For each string, it should take each word, separated by spaces, and write it in a reversed order.
+Example:
+Input:
+3
+salam
+pashmak mikhori?
+gholi raft bazi kone
+Output:
+malas
+?irohkim kamhsap
+enok izab tfar ilohg
+
+
+Problem by Hooman Behnejad

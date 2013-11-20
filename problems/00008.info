@@ -1,0 +1,14 @@
+Write a program that gets number n, and then gets n strings. For each of those strings, it should print G, which is defined as this:
+G = the sum of M*N for each character in the string, where M is the position of the character, and N is the ascii number representing it.
+For example: G, for 't' in "hotel", is 2 * 116.
+Example:
+Input:
+2
+salam
+tolombe
+Output:
+1040
+2192
+
+
+Problem by Hooman Behnejad

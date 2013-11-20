@@ -1,1 +1,17 @@
 Write a program that first gets "n". Then does this n times: Get two numbers and print their sum. 
+Example:
+Input:
+4
+1
+3
+8
+12
+0
+8
+145
+6
+Output:
+4
+20
+8
+151

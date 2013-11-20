@@ -1,0 +1,20 @@
+The Fiboncci sequence is defined as such:
+F(n) = F(n-1) + F(n-2), F(1) = 1, F(2) = 1
+Or in other words, each sequence is the sum of the two sequences before it. So some of the first sentences would be
+1, 1, 2, 3, 5, 8, 13, 21, ...
+Now you should write a program that gets number n, and then inputs n numbers and calculates the F(k) for each one. Then,
+ it should print the 5 last digits of the result, followed by its 5 first digits. For example, if the result was 185423269584, it should print "6958418542".
+You can suppose that the result always has more than or equal to 10 digits.
+Example:
+Input:
+3
+54
+87
+152
+Output:
+7127286267
+1225867989
+4654926099
+
+
+Problem by Hooman Behnejad
